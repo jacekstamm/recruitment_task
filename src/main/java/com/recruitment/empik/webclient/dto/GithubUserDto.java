@@ -12,4 +12,6 @@ public class GithubUserDto {
     private String type;
     private String avatar_url;
     private LocalDateTime created_at;
+    private int followers;
+    private int public_repos;
 }

@@ -1,29 +1,30 @@
 package com.recruitment.empik.webclient;
 
-import com.recruitment.empik.model.UserInfo;
+import com.recruitment.empik.exception.UserNotFoundOnGithubException;
+import com.recruitment.empik.exception.WrongInputException;
 import com.recruitment.empik.webclient.dto.GithubUserDto;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-@Slf4j
 public class GithubClient {
 
     @Value("${github.url}")
     private String BASE_URL;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public UserInfo getUserInfo(String login) {
-        GithubUserDto response = restTemplate.getForObject(BASE_URL + login, GithubUserDto.class);
-        return UserInfo.builder()
-            .id(response.getId())
-            .login(response.getLogin())
-            .name(response.getName())
-            .type(response.getType())
-            .createdAt(response.getCreated_at())
-            .build();
+    public GithubUserDto getUserInfo(String login) {
+        try {
+            return restTemplate.getForObject(BASE_URL + login, GithubUserDto.class);
+        } catch (HttpClientErrorException.NotFound ex) {
+            throw new UserNotFoundOnGithubException(login);
+        } catch (IllegalArgumentException exception) {
+            throw new WrongInputException(login);
+        }
     }
 }

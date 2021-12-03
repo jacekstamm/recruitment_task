@@ -6,11 +6,11 @@
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
 http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <changeSet id="create_user_table" author="Jacek Stamm">
-        <createTable tableName="GITHUB_USERS">
+        <createTable tableName="SEARCHED_USERS">
             <column name="LOGIN" type="varchar">
                 <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
-            <column name="REQUEST_COUNT" type="varchar(250)"/>
+            <column name="REQUEST_COUNT" type="BIGINT"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

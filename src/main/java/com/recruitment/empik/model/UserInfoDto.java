@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class UserInfo {
+public class UserInfoDto {
 
     private Long id;
     private String login;
@@ -14,4 +14,5 @@ public class UserInfo {
     private String type;
     private String avatarUrl;
     private LocalDateTime createdAt;
+    private Double calculations;
 }

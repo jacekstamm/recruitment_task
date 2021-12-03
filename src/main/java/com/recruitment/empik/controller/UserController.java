@@ -1,6 +1,6 @@
 package com.recruitment.empik.controller;
 
-import com.recruitment.empik.model.UserInfo;
+import com.recruitment.empik.model.UserInfoDto;
 import com.recruitment.empik.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class UserController {
     private final UserService service;
 
     @GetMapping("/{login}")
-    public UserInfo getUserInfo(@PathVariable String login) {
-        return service.getUserModel(login);
+    public UserInfoDto getUserInfo(@PathVariable String login) {
+        return service.getUserInfo(login);
     }
 }
