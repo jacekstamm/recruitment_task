@@ -28,6 +28,7 @@ class UserControllerTest extends Specification {
 
     private static final String LOGIN = 'testLogin'
     private static final String WRONG_LOGIN = 'wrongLogin'
+    private static final String WRONG_INPUT = 'input'
     private static final LocalDateTime NOW = LocalDateTime.of(2000,01,02,12,25, 15)
 
     @Value('${github.url}')
@@ -82,5 +83,15 @@ class UserControllerTest extends Specification {
         expect:
         mvc.perform(get('/users/' + WRONG_LOGIN))
                 .andExpect(status().isNotFound())
+    }
+
+    def 'should receive 406 status when input is not acceptable'() {
+        given:
+        Mockito.when(restTemplate.getForObject(BASE_URL + WRONG_INPUT, GithubUserDto.class))
+                .thenThrow(IllegalArgumentException.class)
+
+        expect:
+        mvc.perform(get("/users/" + WRONG_INPUT))
+                .andExpect(status().isNotAcceptable())
     }
 }
